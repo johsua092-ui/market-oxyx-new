@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Oxyx Builds — Secure Build Repository{% endblock %}
+
+{% block content %}
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+    <div class="hero-badge">
+        <span class="dot"></span>
+        Build a Boat for Treasure
+    </div>
+
+    <h1>Oxyx<br>Build Repository</h1>
+
+    <p>Tempat penyimpanan file .build yang aman, terenkripsi, dan dilindungi sistem autentikasi berlapis untuk komunitas Build a Boat.</p>
+
+    <div class="hero-buttons">
+        {% if session.user_id %}
+            {% if session.role == 'owner' %}
+                <a href="/owner/dashboard" class="btn btn-primary">👑 Owner Dashboard</a>
+            {% elif session.role == 'staff' %}
+                <a href="/staff/dashboard" class="btn btn-primary">🛡️ Staff Dashboard</a>
+            {% else %}
+                <a href="/dashboard" class="btn btn-primary">🚀 Buka Dashboard</a>
+            {% endif %}
+            <a href="/logout" class="btn btn-ghost btn-sm" style="align-self:center;">Logout</a>
+        {% else %}
+            <a href="/login"    class="btn btn-primary">🔑 Login Sekarang</a>
+            <a href="/register" class="btn btn-secondary">📝 Buat Akun</a>
+        {% endif %}
+    </div>
+
+    <div class="hero-scroll-hint">
+        <span>Scroll ke bawah</span>
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- ===================== STATS STRIP ===================== -->
+<div class="stats-strip">
+    <div class="strip-stat">
+        <span class="num">256</span>
+        <span class="lbl">Build Tersimpan</span>
+    </div>
+    <div class="strip-stat">
+        <span class="num">3</span>
+        <span class="lbl">Level Akses</span>
+    </div>
+    <div class="strip-stat">
+        <span class="num">100</span>
+        <span class="lbl">% Terenkripsi</span>
+    </div>
+    <div class="strip-stat">
+        <span class="num">1</span>
+        <span class="lbl">Sesi Per Akun</span>
+    </div>
+</div>
+
+<!-- ===================== FEATURES ===================== -->
+<div style="margin-top:3rem;">
+    <div class="divider-line"></div>
+    <h2 class="section-title" style="margin-top:1rem;margin-bottom:0.5rem;">Fitur Keamanan</h2>
+    <p class="section-subtitle">Setiap lapisan dirancang untuk melindungi data build kamu dari akses tidak sah.</p>
+
+    <div class="features">
+        <div class="feature-card">
+            <span class="card-icon">🔐</span>
+            <h3>WHID Single Session</h3>
+            <p>Satu akun hanya bisa login dari satu sesi aktif. Login baru otomatis menggantikan sesi lama — tidak ada duplikasi.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="card-icon">🌐</span>
+            <h3>IP Binding Ketat</h3>
+            <p>Akun Staff & Owner terikat pada satu IP. Login dari IP berbeda langsung ditolak sampai Owner melakukan reset secara manual.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="card-icon">🎟️</span>
+            <h3>Kode Undangan</h3>
+            <p>Role Staff dan Owner hanya bisa didapat lewat kode undangan single-use yang digenerate langsung oleh Owner.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="card-icon">🛡️</span>
+            <h3>Password Kuat</h3>
+            <p>Password di-hash dengan PBKDF2-SHA256 100.000 iterasi. Wajib memenuhi 5 kriteria kekuatan minimum.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="card-icon">⚡</span>
+            <h3>Rate Limiting</h3>
+            <p>Maksimal 5 percobaan login gagal dalam 15 menit. Akun otomatis terkunci 30 menit jika batas terlampaui.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="card-icon">👁️</span>
+            <h3>Audit Penuh</h3>
+            <p>Owner bisa memantau seluruh sesi aktif, IP setiap user, waktu login terakhir, dan riwayat aktivitas real-time.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== HOW IT WORKS ===================== -->
+<div style="margin-top:3rem;">
+    <div class="divider-line"></div>
+    <h2 class="section-title" style="margin-top:1rem;margin-bottom:0.5rem;">Cara Kerja</h2>
+    <p class="section-subtitle">Tiga langkah untuk mulai menggunakan Oxyx Builds.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:1rem;">
+        <div class="dashboard-card" style="text-align:center;">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">1️⃣</div>
+            <h3>Daftar Akun</h3>
+            <p>Buat akun user biasa secara gratis. Butuh role lebih tinggi? Minta kode undangan dari Owner.</p>
+        </div>
+
+        <div class="dashboard-card" style="text-align:center;">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">2️⃣</div>
+            <h3>Verifikasi & Login</h3>
+            <p>Login aman dengan autentikasi berlapis. Staff & Owner akan terikat IP secara otomatis saat pertama login.</p>
+        </div>
+
+        <div class="dashboard-card" style="text-align:center;">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">3️⃣</div>
+            <h3>Kelola Build</h3>
+            <p>Upload, browse, dan kelola file .build kamu dari dashboard yang bersih dan aman.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== CTA ===================== -->
+{% if not session.user_id %}
+<div style="text-align:center;margin:4rem 0 2rem;padding:3rem 2rem;
+    background:rgba(102,126,234,0.07);border:1px solid rgba(102,126,234,0.2);
+    border-radius:24px;backdrop-filter:blur(20px);">
+    <h2 style="color:white;font-size:1.8rem;font-weight:800;margin-bottom:0.8rem;">Siap Bergabung?</h2>
+    <p style="color:rgba(255,255,255,0.5);margin-bottom:2rem;font-size:1rem;">Buat akun gratis sekarang dan mulai kelola build kamu dengan aman.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="/register" class="btn btn-primary">📝 Daftar Gratis</a>
+        <a href="/login"    class="btn btn-secondary">🔑 Sudah Punya Akun</a>
+    </div>
+</div>
+{% else %}
+<div style="text-align:center;margin:4rem 0 2rem;padding:2.5rem 2rem;
+    background:rgba(102,126,234,0.07);border:1px solid rgba(102,126,234,0.2);
+    border-radius:24px;backdrop-filter:blur(20px);">
+    <h2 style="color:white;font-size:1.6rem;font-weight:800;margin-bottom:0.6rem;">
+        Selamat datang kembali,
+        <span style="background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{ session.username }}</span>!
+    </h2>
+    <p style="color:rgba(255,255,255,0.5);margin-bottom:1.8rem;">Lanjutkan aktivitas kamu dari dashboard.</p>
+    {% if session.role == 'owner' %}
+        <a href="/owner/dashboard" class="btn btn-primary">👑 Owner Dashboard</a>
+    {% elif session.role == 'staff' %}
+        <a href="/staff/dashboard" class="btn btn-primary">🛡️ Staff Dashboard</a>
+    {% else %}
+        <a href="/dashboard" class="btn btn-primary">🚀 Buka Dashboard</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
